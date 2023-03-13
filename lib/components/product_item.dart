@@ -9,10 +9,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(
-      context,
-      listen: false,
-    );
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Product>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -25,8 +23,8 @@ class ProductItem extends StatelessWidget {
                 product.toggleFavorite();
               },
               icon: Icon(product.isFavorite
-                  ? Icons.favorite_border_rounded
-                  : Icons.favorite_rounded),
+                  ? Icons.favorite
+                  : Icons.favorite_border_rounded),
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
@@ -35,7 +33,10 @@ class ProductItem extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              cart.addItem(product);
+              print(cart.itemsCount);
+            },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).colorScheme.secondary,
           ),

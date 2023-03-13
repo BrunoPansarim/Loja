@@ -9,8 +9,16 @@ import '../models/product_list.dart';
   }
 
 
-class ProductsOverViewScreen extends StatelessWidget {
+class ProductsOverViewScreen extends StatefulWidget {
   const ProductsOverViewScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProductsOverViewScreen> createState() => _ProductsOverViewScreenState();
+}
+
+class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
+
+   bool _showFavoriteOnly = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +42,22 @@ class ProductsOverViewScreen extends StatelessWidget {
                       ),
                       const PopupMenuItem(
                         value: FilterOptions.All,
-                        child: Text('Favoritos'),
+                        child: Text('Somente Favoritos'),
                       ),
                     ],
               onSelected: (FilterOptions selectedValue) {
-                if (selectedValue == FilterOptions.Favorite) {
-                  provider.showFavoriteOnly();
+                setState(() {
+                  if (selectedValue == FilterOptions.Favorite) {
+                    _showFavoriteOnly = true;
                   } else {
-                  provider.showFavoriteOnly();
-                }
+                    _showFavoriteOnly = false;
+                  }
+                  print(_showFavoriteOnly);
+                });
               },
             )
           ]),
-      body: const ProductGrid(),
+      body: ProductGrid(_showFavoriteOnly),
     );
   }
 }
