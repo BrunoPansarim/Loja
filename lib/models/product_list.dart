@@ -16,10 +16,6 @@ class ProductList with ChangeNotifier {
 }
 
 
-
-
-
-
   // bool _showFavoriteOnly = false;
   //
   //   if(_showFavoriteOnly) {

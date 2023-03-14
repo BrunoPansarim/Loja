@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lojinha/utils/app_routes.dart';
 import 'package:provider/provider.dart';
-
 import '../models/product.dart';
+import 'package:lojinha/models/cart.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key});
+  const ProductItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
-    final cart = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -35,7 +35,6 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             onPressed: () {
               cart.addItem(product);
-              print(cart.itemsCount);
             },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).colorScheme.secondary,
