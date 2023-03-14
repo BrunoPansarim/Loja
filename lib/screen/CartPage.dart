@@ -19,7 +19,7 @@ class CartPage extends StatelessWidget {
       body: Column(
         children: [
           Card(
-            margin: const EdgeInsets.all(25),
+            margin: const EdgeInsets.all(15),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -28,31 +28,30 @@ class CartPage extends StatelessWidget {
                   const Text(
                     'Total',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 15,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 7),
                   Chip(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      label: Text(
-                        'R\$${cart.totalAmount}',
-                        style: TextStyle(
-                          color: Theme.of(context)
-                              .primaryTextTheme
-                              .headlineLarge
-                              ?.color,
-                        ),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    label: Text(
+                      'R\$${cart.totalAmount.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        color: Theme.of(context)
+                            .primaryTextTheme
+                            .headlineLarge
+                            ?.color,
                       ),
+                    ),
                   ),
                   const Spacer(),
                   TextButton(
-                      style: TextButton.styleFrom(
+                    style: TextButton.styleFrom(
                         textStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        )
-                      ),
-                      onPressed: () {},
-                      child: const Text('Comprar'),
+                      color: Theme.of(context).primaryColor,
+                    )),
+                    onPressed: () {},
+                    child: const Text('Comprar'),
                   ),
                 ],
               ),
@@ -61,8 +60,7 @@ class CartPage extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
-                itemBuilder: (ctx, i) => CartWidgetItem(
-                    cartItem: items[i]),
+              itemBuilder: (ctx, i) => CartWidgetItem(cartItem: items[i]),
             ),
           )
         ],
