@@ -3,6 +3,7 @@ import 'package:lojinha/models/OrderList.dart';
 import 'package:lojinha/models/cart.dart';
 import 'package:lojinha/models/product_list.dart';
 import 'package:lojinha/screen/CartPage.dart';
+import 'package:lojinha/screen/orders_screen.dart';
 import 'package:lojinha/screen/product_detail_page.dart';
 import 'package:lojinha/screen/products_overView_screen.dart';
 import 'package:lojinha/utils/app_routes.dart';
@@ -40,8 +41,10 @@ class MyApp extends StatelessWidget {
         ),
         home: const ProductsOverviewPage(),
         routes: {
+          AppRoutes.home: (ctx) => const ProductsOverviewPage(),
           AppRoutes.product_detail: (ctx) => const ProductDetailPage(),
           AppRoutes.product_cart: (ctx) => const CartPage(),
+          AppRoutes.orders: (ctx) => const OrdersPage(),
         },
         debugShowCheckedModeBanner: false,
       ),

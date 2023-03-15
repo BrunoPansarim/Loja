@@ -55,7 +55,9 @@ class CartPage extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     )),
                     onPressed: () {
-                      Provider.of<OrderList>(context);
+                      Provider.of<OrderList>(context, listen: false,
+                      ).addOrder(cart);
+                      cart.clear();
                     },
                     child: const Text('Comprar'),
                   ),

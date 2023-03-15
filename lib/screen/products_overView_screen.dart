@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojinha/components/app_drawer.dart';
 import 'package:lojinha/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../components/badge.dart';
@@ -28,7 +29,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         title: const Text(
           'O lojinha',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.green,
           ),
         ),
         actions: [
@@ -69,6 +70,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         ],
       ),
       body: ProductGrid(_showFavoriteOnly),
+      drawer: const AppDrawer(),
     );
   }
 }

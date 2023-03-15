@@ -10,12 +10,16 @@ class ProductDetailPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Product;
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title),
+        title: Text(
+          product.title,
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 300,
               width: double.infinity,
               child: Image.network(
