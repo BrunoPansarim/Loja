@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojinha/components/cart_widget_item.dart';
+import 'package:lojinha/models/OrderList.dart';
 import 'package:provider/provider.dart';
 
 import '../models/cart.dart';
@@ -53,7 +54,9 @@ class CartPage extends StatelessWidget {
                         textStyle: TextStyle(
                       color: Theme.of(context).primaryColor,
                     )),
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<OrderList>(context);
+                    },
                     child: const Text('Comprar'),
                   ),
                 ],

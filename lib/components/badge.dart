@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Badgee extends StatelessWidget {
-  const Badgee ({Key? key, required this.child, required this.value, this.color}) : super(key: key);
+  const Badgee({Key? key, required this.child, required this.value, this.color})
+      : super(key: key);
 
   final Widget child;
   final String value;
   final Color? color;
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +33,7 @@ class Badgee extends StatelessWidget {
                   fontSize: 10,
                 ),
               ),
-        )
-        ),
+            )),
       ],
     );
   }

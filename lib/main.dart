@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojinha/models/OrderList.dart';
 import 'package:lojinha/models/cart.dart';
 import 'package:lojinha/models/product_list.dart';
 import 'package:lojinha/screen/CartPage.dart';
@@ -23,14 +24,18 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
+        ), ChangeNotifierProvider(
+          create: (_) => OrderList(),
         ),
+          // ChangeNotifierProvider(
+          // create: (_) => OrderList(),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'Lato',
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)
               .copyWith(background: Colors.black),
         ),
         home: const ProductsOverviewPage(),
