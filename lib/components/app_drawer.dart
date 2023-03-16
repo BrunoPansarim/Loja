@@ -11,11 +11,11 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: const Text('xD'),
+            title: const Text('Menu'),
             automaticallyImplyLeading: false,
             backgroundColor: Colors.grey,
           ),
-          const Divider(),
+          // const Divider(),
           ListTile(
             leading: const Icon(Icons.shop),
             title: const Text('Loja'),
@@ -25,13 +25,23 @@ class AppDrawer extends StatelessWidget {
               );
             },
           ),
-          const Divider(),
+          // const Divider(),
           ListTile(
-            leading: const Icon(Icons.payment),
+            leading: const Icon(Icons.payment_sharp),
             title: const Text('PC'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.orders,
+              );
+            },
+          ),
+          // const Divider(),
+          ListTile(
+            leading: const Icon(Icons.payment_sharp),
+            title: const Text('Gerenciar Produtos'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(
+                AppRoutes.products_page,
               );
             },
           ),

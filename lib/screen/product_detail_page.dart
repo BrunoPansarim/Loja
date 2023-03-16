@@ -15,6 +15,7 @@ class ProductDetailPage extends StatelessWidget {
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(

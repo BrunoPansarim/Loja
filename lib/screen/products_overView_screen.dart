@@ -26,11 +26,12 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         title: const Text(
           'O lojinha',
-          style: TextStyle(
-            color: Colors.green,
-          ),
+          // style: TextStyle(
+          //   color: Colors.green,
+          // ),
         ),
         actions: [
           PopupMenuButton(

@@ -15,6 +15,8 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Carrinho"),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
       ),
       body: Column(
         children: [

@@ -28,10 +28,45 @@ class CartWidgetItem extends StatelessWidget {
           size: 40,
         ),
       ),
-        onDismissed: (_) {
-          Provider.of<Cart>(context, listen: false,
-          ).removeItem(cartItem.productId);
-        },
+      confirmDismiss: (_) async {
+        return showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text(
+              'Are you sure?',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            content: const Text(
+              'Está certo disso?',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text('Não'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: const Text('Sim'),
+              ),
+            ],
+          ),
+        );
+      },
+      onDismissed: (_) {
+        Provider.of<Cart>(
+          context,
+          listen: false,
+        ).removeItem(cartItem.productId);
+      },
       child: Card(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
