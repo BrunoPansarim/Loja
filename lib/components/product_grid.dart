@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lojinha/components/product_item.dart';
+import 'package:lojinha/components/product_grid_item.dart';
 import 'package:provider/provider.dart';
 
 import '../models/product.dart';
