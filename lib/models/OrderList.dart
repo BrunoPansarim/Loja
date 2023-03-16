@@ -11,6 +11,9 @@ class OrderList with ChangeNotifier {
     return [..._items];
   }
 
+  int get itemsCount {
+    return _items.length;
+  }
   void addOrder(Cart cart) {
     _items.insert(0,
       Order(id: Random().nextDouble().toString(),

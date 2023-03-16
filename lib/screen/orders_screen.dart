@@ -15,9 +15,9 @@ class OrdersPage extends StatelessWidget {
         title: const Text('Compras'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: ListView.builder(
-        // itemCount: orders.itemsCount,
+        itemCount: orders.itemsCount,
         itemBuilder: (ctx, i) => OrdersWidget(order: orders.items[i]),
       ),
     );

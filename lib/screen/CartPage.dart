@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojinha/components/cart_widget_item.dart';
 import 'package:lojinha/models/OrderList.dart';
 import 'package:provider/provider.dart';
-
-import '../models/cart.dart';
+import 'package:lojinha/models/cart.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -53,7 +52,8 @@ class CartPage extends StatelessWidget {
                     style: TextButton.styleFrom(
                         textStyle: TextStyle(
                       color: Theme.of(context).primaryColor,
-                    )),
+                    ),
+                    ),
                     onPressed: () {
                       Provider.of<OrderList>(context, listen: false,
                       ).addOrder(cart);

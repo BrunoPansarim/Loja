@@ -33,23 +33,24 @@ class ProductItem extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
-            onPressed: () {
-              cart.addItem(product);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Produto adicionado!'),
-                  duration: Duration(seconds: 1),
-                  action: SnackBarAction(
-                      label: 'Desfazer',
-                      onPressed: () {
-                        print('Desfazer');
-                      },
-                ),
-                ),
-              );
-            },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).colorScheme.secondary,
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Produto adicionado!'),
+                  duration: const Duration(seconds: 1),
+                  action: SnackBarAction(
+                    label: 'Desfazer',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                ),
+              );
+              cart.addItem(product);
+            },
           ),
         ),
         child: GestureDetector(

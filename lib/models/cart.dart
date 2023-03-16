@@ -27,7 +27,7 @@ class Cart with ChangeNotifier {
     if (_items.containsKey(product.id)) {
       _items.update(
         product.id,
-            (existingItem) => CartItem(
+        (existingItem) => CartItem(
           id: existingItem.id,
           productId: existingItem.productId,
           title: existingItem.title,
@@ -38,7 +38,7 @@ class Cart with ChangeNotifier {
     } else {
       _items.putIfAbsent(
         product.id,
-            () => CartItem(
+        () => CartItem(
           id: Random().nextDouble().toString(),
           productId: product.id,
           title: product.title,
@@ -59,6 +59,22 @@ class Cart with ChangeNotifier {
     if (!_items.containsKey(productId)) {
       return;
     }
+
+    if (_items[productId]?.quantity == 1) {
+      _items.remove(productId);
+    } else {
+      _items.update(
+        productId,
+        (existingItem) => CartItem(
+          id: existingItem.id,
+          productId: existingItem.productId,
+          title: existingItem.title,
+          quantity: existingItem.quantity - 1,
+          price: existingItem.price,
+        ),
+      );
+    }
+    notifyListeners();
   }
 
   void clear() {
