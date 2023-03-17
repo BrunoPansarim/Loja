@@ -3,6 +3,7 @@ import 'package:lojinha/models/product_list.dart';
 import 'package:provider/provider.dart';
 
 import '../components/app_drawer.dart';
+import '../components/product_item.dart';
 
 class ProductsPage extends StatelessWidget {
   const ProductsPage({Key? key})
@@ -20,15 +21,19 @@ class ProductsPage extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       drawer: const AppDrawer(),
-      body: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: products.itemsCount,
-          itemBuilder: (ctx, i) =>
-              ElevatedButton(
-                  onPressed: () {},
-                  child: Text(products.items[i].title),
-              ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+            itemCount: products.itemsCount,
+            itemBuilder: (ctx, i) => Column(
+              children: [
+                ProductItem(products.items[i]),
+                const Divider(),
+              ],
+            ),
+        ),
       ),
     );
   }
 }
+// alterar o tem builder
