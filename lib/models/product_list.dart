@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:lojinha/data/dummy_data.dart';
 import 'package:lojinha/models/product.dart';
@@ -11,6 +13,17 @@ class ProductList with ChangeNotifier {
 
   int get itemsCount {
     return _items.length;
+
+  }  void addProductFromData(Map<String, Object>data) {
+    final newProduct = Product(
+      id: Random().nextDouble().toString(),
+      title: data['Nome'] as String,
+      description: data['Descrição'] as String,
+      price: data['Preço'] as double,
+      imageUrl: data['imagemUrl'] as String,
+    );
+
+    addProduct(newProduct);
   }
 
   void addProduct(Product product) {
@@ -18,8 +31,6 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 }
-
-
   // bool _showFavoriteOnly = false;
   //
   //   if(_showFavoriteOnly) {

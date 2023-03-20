@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:lojinha/models/product_list.dart';
 import 'package:provider/provider.dart';
+
+import '../models/product.dart';
 
 class ProductForm extends StatefulWidget {
   const ProductForm({Key? key}) : super(key: key);
@@ -56,15 +60,7 @@ class _ProductFormState extends State<ProductForm> {
     }
     _formKey.currentState?.save();
 
-    final newProduct = Product(
-      id: Random().nextDouble().toString(),
-      title: _formData['Nome'] as String,
-      description: _formData['Descrição'] as String,
-      price: _formData['Preço'] as double,
-      imageUrl: _formData['imagemUrl'] as String,
-    );
-
-    Provider.of<ProductList>(context, listen: false).addProduct(newProduct);
+    Provider.of<ProductList>(context, listen: false).addProductFromData(_formData);
     Navigator.of(context).pop();
 
   }
@@ -220,17 +216,16 @@ class _ProductFormState extends State<ProductForm> {
                       ),
                     ),
                     alignment: Alignment.center,
-                    child: _imageUrlController.text.isEmpty
-                        ? const Text(
+                         child: const Text(
                             'URL',
-                            // style: TextStyle(
-                            //   color: Colors.white,
-                            // ),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           )
-                        : FittedBox(
-                            // fit: BoxFit.cover,
-                            child: Image.network(_imageUrlController.text),
-                          ),
+                        // : FittedBox(
+                        //     // fit: BoxFit.cover,
+                        //     child: Image.network(_imageUrlController.text),
+                        //   ),
                   ),
                 ],
               ),
