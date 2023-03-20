@@ -1,8 +1,6 @@
-import 'dart:ffi';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:lojinha/models/product.dart';
+import 'package:lojinha/models/product_list.dart';
+import 'package:provider/provider.dart';
 
 class ProductForm extends StatefulWidget {
   const ProductForm({Key? key}) : super(key: key);
@@ -19,7 +17,7 @@ class _ProductFormState extends State<ProductForm> {
   final _imageUrlController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  final _formData = Map<String, Object>();
+  final _formData = <String, Object>{};
 
   @override
   void initState() {
@@ -42,18 +40,33 @@ class _ProductFormState extends State<ProductForm> {
     setState(() {});
   }
 
-  void _subitForm() {
-    final isValid = _for
-    _formKey.currentState?.save();
+  bool isValidImageUrl(String url) {
+    bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
+    bool endsWithFile = url.toLowerCase().endsWith('.png') ||
+        url.toLowerCase().endsWith('.jpg') ||
+        url.toLowerCase().endsWith('.jpeg');
+    return isValidUrl && endsWithFile;
+  }
 
+  void _submitForm() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    if (!isValid) {
+      return;
+    }
+    _formKey.currentState?.save();
 
     final newProduct = Product(
       id: Random().nextDouble().toString(),
       title: _formData['Nome'] as String,
       description: _formData['Descrição'] as String,
       price: _formData['Preço'] as double,
-      imageUrl: _formData['Imagem'] as String,
+      imageUrl: _formData['imagemUrl'] as String,
     );
+
+    Provider.of<ProductList>(context, listen: false).addProduct(newProduct);
+    Navigator.of(context).pop();
+
   }
 
   @override
@@ -65,7 +78,7 @@ class _ProductFormState extends State<ProductForm> {
         title: const Text('Formulário'),
         actions: [
           IconButton(
-            onPressed: _subitForm,
+            onPressed: _submitForm,
             icon: const Icon(Icons.send_sharp),
           ),
         ],
@@ -91,28 +104,50 @@ class _ProductFormState extends State<ProductForm> {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
                 onSaved: (name) => _formData['Nome'] = name ?? '',
+                validator: (_name) {
+                  final name = _name ?? '';
+
+                  if (name.trim().isEmpty) {
+                    return 'Nome obrigatório!';
+                  }
+                  if (name.trim().length < 3) {
+                    return 'Invalido!';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: const InputDecoration(
-                  labelText: 'Preço',
-                  labelStyle: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
-                ),
-                textInputAction: TextInputAction.next,
-                focusNode: _priceFocus,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_descriptionFocus);
-                },
-                onSaved: (price) =>
-                    _formData['Preço'] = double.parse(price ?? '0'),
-              ),
+                  decoration: const InputDecoration(
+                    labelText: 'Preço',
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  textInputAction: TextInputAction.next,
+                  focusNode: _priceFocus,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: true,
+                  ),
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_descriptionFocus);
+                  },
+                  onSaved: (price) =>
+                      _formData['Preço'] = double.parse(price ?? '0'),
+                  validator: (_price) {
+                    final priceString = _price ?? '';
+                    final price = double.tryParse(priceString) ?? -1;
+
+                    if (price <= 0) {
+                      return 'Informe um valor válido';
+                    }
+
+                    return null;
+                  }
+                  ),
               TextFormField(
                 style: const TextStyle(
                   color: Colors.white,
@@ -128,6 +163,17 @@ class _ProductFormState extends State<ProductForm> {
                 maxLines: 3,
                 onSaved: (description) =>
                     _formData['Descrição'] = description ?? '',
+                validator: (_description) {
+                  final description = _description ?? '';
+
+                  if (description.trim().isEmpty) {
+                    return 'Descrição please!';
+                  }
+                  if (description.trim().length < 10) {
+                    return 'Descreva mais!';
+                  }
+                  return null;
+                },
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -138,7 +184,7 @@ class _ProductFormState extends State<ProductForm> {
                         color: Colors.white,
                       ),
                       decoration: const InputDecoration(
-                        labelText: 'URL da Imagem',
+                        labelText: 'Url da Imagem',
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -146,9 +192,18 @@ class _ProductFormState extends State<ProductForm> {
                       focusNode: _imageUrlFocus,
                       controller: _imageUrlController,
                       keyboardType: TextInputType.url,
-                      onFieldSubmitted: (_) => _subitForm(),
+                      onFieldSubmitted: (_) => _submitForm(),
                       onSaved: (imageUrl) =>
-                          _formData['Imagem'] = imageUrl ?? '',
+                          _formData['imageUrl'] = imageUrl ?? '',
+                      validator: (_imageUrl) {
+                        final imageUrl = _imageUrl ?? '';
+
+                        if (!isValidImageUrl(imageUrl)) {
+                          return 'Informe uma Url válida!';
+                        }
+
+                        return null;
+                      },
                     ),
                   ),
                   Container(
@@ -168,15 +223,15 @@ class _ProductFormState extends State<ProductForm> {
                     child: _imageUrlController.text.isEmpty
                         ? const Text(
                             'URL',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+                            // style: TextStyle(
+                            //   color: Colors.white,
+                            // ),
                           )
                         : FittedBox(
-                            fit: BoxFit.cover,
+                            // fit: BoxFit.cover,
                             child: Image.network(_imageUrlController.text),
                           ),
-                  )
+                  ),
                 ],
               ),
             ],
