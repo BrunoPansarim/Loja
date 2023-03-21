@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:lojinha/models/product_list.dart';
 import 'package:provider/provider.dart';
-
-import '../models/product.dart';
 
 class ProductForm extends StatefulWidget {
   const ProductForm({Key? key}) : super(key: key);
@@ -25,7 +21,6 @@ class _ProductFormState extends State<ProductForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _imageUrlFocus.addListener((updateImage));
   }
@@ -60,9 +55,15 @@ class _ProductFormState extends State<ProductForm> {
     }
     _formKey.currentState?.save();
 
-    Provider.of<ProductList>(context, listen: false).addProductFromData(_formData);
-    Navigator.of(context).pop();
+// if (_editedProduct.id !='') {
+//   Provider.of<ProductList>(context, listen: false).updateProduct(
+//       _editedProduct.id, _editedProduct);
+//   Navigator.of(context).pop();
+// }else {
 
+    Provider.of<ProductList>(context, listen: false)
+        .addProductFromData(_formData);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -142,8 +143,7 @@ class _ProductFormState extends State<ProductForm> {
                     }
 
                     return null;
-                  }
-                  ),
+                  }),
               TextFormField(
                 style: const TextStyle(
                   color: Colors.white,
@@ -187,6 +187,7 @@ class _ProductFormState extends State<ProductForm> {
                       ),
                       focusNode: _imageUrlFocus,
                       controller: _imageUrlController,
+                      textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.url,
                       onFieldSubmitted: (_) => _submitForm(),
                       onSaved: (imageUrl) =>
@@ -198,7 +199,7 @@ class _ProductFormState extends State<ProductForm> {
                           return 'Informe uma Url válida!';
                         }
 
-                        return null;
+                        return 'Sucesso!';
                       },
                     ),
                   ),
@@ -216,16 +217,17 @@ class _ProductFormState extends State<ProductForm> {
                       ),
                     ),
                     alignment: Alignment.center,
-                         child: const Text(
-                            'URL',
+                    child: _imageUrlController.text.isEmpty
+                        ? const Text(
+                            'Informe a Url',
                             style: TextStyle(
                               color: Colors.white,
                             ),
                           )
-                        // : FittedBox(
-                        //     // fit: BoxFit.cover,
-                        //     child: Image.network(_imageUrlController.text),
-                        //   ),
+                        : FittedBox(
+                            fit: BoxFit.cover,
+                            child: Image.network(_imageUrlController.text),
+                          ),
                   ),
                 ],
               ),

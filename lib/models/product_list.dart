@@ -17,10 +17,10 @@ class ProductList with ChangeNotifier {
   }  void addProductFromData(Map<String, Object>data) {
     final newProduct = Product(
       id: Random().nextDouble().toString(),
-      title: data['Nome'] as String,
-      description: data['Descrição'] as String,
-      price: data['Preço'] as double,
-      imageUrl: data['imagemUrl'] as String,
+      title: data['title'] as String,
+      description: data['description'] as String,
+      price: data['price'] as double,
+      imageUrl: data['imageUrl'] as String,
     );
 
     addProduct(newProduct);
