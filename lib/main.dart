@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lojinha/models/OrderList.dart';
+import 'package:lojinha/models/order_list.dart';
 import 'package:lojinha/models/cart.dart';
 import 'package:lojinha/models/product_list.dart';
-import 'package:lojinha/screen/CartPage.dart';
+import 'package:lojinha/screen/cart_page.dart';
 import 'package:lojinha/screen/orders_screen.dart';
 import 'package:lojinha/screen/product_detail_page.dart';
 import 'package:lojinha/screen/product_form_page.dart';
-import 'package:lojinha/screen/productsPage.dart';
-import 'package:lojinha/screen/products_overView_screen.dart';
+import 'package:lojinha/screen/products_page.dart';
+import 'package:lojinha/screen/products_overview_screen.dart';
 import 'package:lojinha/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +27,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
-        ), ChangeNotifierProvider(
+        ),
+        ChangeNotifierProvider(
           create: (_) => OrderList(),
         ),
-          // ChangeNotifierProvider(
-          // create: (_) => OrderList(),
+        // ChangeNotifierProvider(
+        // create: (_) => OrderList(),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.product_cart: (ctx) => const CartPage(),
           AppRoutes.orders: (ctx) => const OrdersPage(),
           AppRoutes.products_page: (ctx) => const ProductsPage(),
-          AppRoutes.product_form: (ctx) => const ProductForm(),
+          AppRoutes.product_form: (ctx) => const ProductFormPage(),
         },
         debugShowCheckedModeBanner: false,
       ),

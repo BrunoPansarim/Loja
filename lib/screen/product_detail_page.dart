@@ -11,7 +11,7 @@ class ProductDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          product.title,
+          product.name,
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.green,

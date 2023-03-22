@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojinha/components/app_drawer.dart';
 import 'package:lojinha/components/order.dart';
-import 'package:lojinha/models/OrderList.dart';
+import 'package:lojinha/models/order_list.dart';
 import 'package:provider/provider.dart';
 
 class OrdersPage extends StatelessWidget {
