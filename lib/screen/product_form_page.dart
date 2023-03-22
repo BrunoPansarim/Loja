@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lojinha/models/product_list.dart';
 import 'package:provider/provider.dart';
 
-class ProductForm extends StatefulWidget {
-  const ProductForm({Key? key}) : super(key: key);
+import '../models/product.dart';
+
+class ProductFormPage extends StatefulWidget {
+  const ProductFormPage({Key? key}) : super(key: key);
 
   @override
-  State<ProductForm> createState() => _ProductFormState();
+  State<ProductFormPage> createState() => _ProductFormPageState();
 }
 
-class _ProductFormState extends State<ProductForm> {
+class _ProductFormPageState extends State<ProductFormPage> {
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
 
@@ -26,13 +28,33 @@ class _ProductFormState extends State<ProductForm> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_formData.isEmpty) {
+      final arg = ModalRoute.of(context)?.settings.arguments;
+
+      if (arg != null) {
+        final product = arg as Product;
+        _formData['id'] = product.id;
+        _formData['name'] = product.name;
+        _formData['price'] = product.price;
+        _formData['description'] = product.description;
+        _formData['imageUrl'] = product.imageUrl;
+
+        _imageUrlController.text = product.imageUrl;
+      }
+    }
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _priceFocus.dispose();
     _descriptionFocus.dispose();
-    _imageUrlFocus.dispose();
     _imageUrlFocus.removeListener((updateImage));
+    _imageUrlFocus.dispose();
   }
 
   void updateImage() {
@@ -55,14 +77,11 @@ class _ProductFormState extends State<ProductForm> {
     }
     _formKey.currentState?.save();
 
-// if (_editedProduct.id !='') {
-//   Provider.of<ProductList>(context, listen: false).updateProduct(
-//       _editedProduct.id, _editedProduct);
-//   Navigator.of(context).pop();
-// }else {
+    Provider.of<ProductList>(
+      context,
+      listen: false,
+    ).saveProduct(_formData);
 
-    Provider.of<ProductList>(context, listen: false)
-        .addProductFromData(_formData);
     Navigator.of(context).pop();
   }
 
@@ -81,47 +100,47 @@ class _ProductFormState extends State<ProductForm> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(15),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _formData['name']?.toString(),
                 style: const TextStyle(
                   color: Colors.white,
                 ),
                 decoration: const InputDecoration(
-                  labelText: 'Nome',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
+                  labelText: 'Name',
+                  labelStyle: TextStyle(color: Colors.white54),
                 ),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
-                onSaved: (name) => _formData['Nome'] = name ?? '',
+                onSaved: (name) => _formData['name'] = name ?? '',
                 validator: (_name) {
                   final name = _name ?? '';
 
                   if (name.trim().isEmpty) {
-                    return 'Nome obrigatório!';
+                    return 'Nome é obrigatório.';
                   }
+
                   if (name.trim().length < 3) {
-                    return 'Invalido!';
+                    return 'Nome precisa no mínimo de 3 letras.';
                   }
+
                   return null;
                 },
               ),
               TextFormField(
+                  initialValue: _formData['price']?.toString(),
                   style: const TextStyle(
                     color: Colors.white,
                   ),
                   decoration: const InputDecoration(
                     labelText: 'Preço',
-                    labelStyle: TextStyle(
-                      color: Colors.white,
-                    ),
+                    labelStyle: TextStyle(color: Colors.white54),
                   ),
                   textInputAction: TextInputAction.next,
                   focusNode: _priceFocus,
@@ -133,41 +152,42 @@ class _ProductFormState extends State<ProductForm> {
                     FocusScope.of(context).requestFocus(_descriptionFocus);
                   },
                   onSaved: (price) =>
-                      _formData['Preço'] = double.parse(price ?? '0'),
+                      _formData['price'] = double.parse(price ?? '0'),
                   validator: (_price) {
                     final priceString = _price ?? '';
                     final price = double.tryParse(priceString) ?? -1;
 
                     if (price <= 0) {
-                      return 'Informe um valor válido';
+                      return 'Informe um preço válido.';
                     }
 
                     return null;
                   }),
               TextFormField(
+                initialValue: _formData['description']?.toString(),
                 style: const TextStyle(
                   color: Colors.white,
                 ),
                 decoration: const InputDecoration(
                   labelText: 'Descrição',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
+                  labelStyle: TextStyle(color: Colors.white54),
                 ),
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
                 onSaved: (description) =>
-                    _formData['Descrição'] = description ?? '',
+                    _formData['description'] = description ?? '',
                 validator: (_description) {
                   final description = _description ?? '';
 
                   if (description.trim().isEmpty) {
-                    return 'Descrição please!';
+                    return 'Descrição é obrigatória.';
                   }
+
                   if (description.trim().length < 10) {
-                    return 'Descreva mais!';
+                    return 'Descrição precisa no mínimo de 10 letras.';
                   }
+
                   return null;
                 },
               ),
@@ -182,13 +202,13 @@ class _ProductFormState extends State<ProductForm> {
                       decoration: const InputDecoration(
                         labelText: 'Url da Imagem',
                         labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.white54,
                         ),
                       ),
+                      keyboardType: TextInputType.url,
+                      textInputAction: TextInputAction.done,
                       focusNode: _imageUrlFocus,
                       controller: _imageUrlController,
-                      textInputAction: TextInputAction.done,
-                      keyboardType: TextInputType.url,
                       onFieldSubmitted: (_) => _submitForm(),
                       onSaved: (imageUrl) =>
                           _formData['imageUrl'] = imageUrl ?? '',
@@ -199,7 +219,7 @@ class _ProductFormState extends State<ProductForm> {
                           return 'Informe uma Url válida!';
                         }
 
-                        return 'Sucesso!';
+                        return null;
                       },
                     ),
                   ),
@@ -207,8 +227,8 @@ class _ProductFormState extends State<ProductForm> {
                     height: 100,
                     width: 100,
                     margin: const EdgeInsets.only(
-                      top: 10,
-                      left: 10,
+                      top: 15,
+                      left: 15,
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -220,14 +240,13 @@ class _ProductFormState extends State<ProductForm> {
                     child: _imageUrlController.text.isEmpty
                         ? const Text(
                             'Informe a Url',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+                          //   style: TextStyle(
+                          //     color: Colors.white),
                           )
                         : FittedBox(
                             fit: BoxFit.cover,
                             child: Image.network(_imageUrlController.text),
-                          ),
+                    ),
                   ),
                 ],
               ),

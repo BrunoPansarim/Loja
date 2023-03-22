@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojinha/components/cart_widget_item.dart';
-import 'package:lojinha/models/OrderList.dart';
+import 'package:lojinha/models/order_list.dart';
 import 'package:provider/provider.dart';
 import 'package:lojinha/models/cart.dart';
 
@@ -70,7 +70,7 @@ class CartPage extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
-              itemBuilder: (ctx, i) => CartWidgetItem(cartItem: items[i]),
+              itemBuilder: (ctx, i) => CartWidgetItem(items[i]),
             ),
           )
         ],

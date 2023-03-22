@@ -21,7 +21,7 @@ class Badgee extends StatelessWidget {
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: color ?? Theme.of(context).accentColor,
+                color: color ?? Theme.of(context).colorScheme.secondary,
               ),
               constraints: const BoxConstraints(
                 minHeight: 16,

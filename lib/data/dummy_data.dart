@@ -3,7 +3,7 @@ import '../models/product.dart';
 final dummyProducts =[
   Product(
     id: 'p1',
-    title: 'Red Shirt',
+    name: 'Red Shirt',
     description: 'Eddie!',
     price: 29.99,
     imageUrl:
@@ -11,7 +11,7 @@ final dummyProducts =[
   ),
   Product(
     id: 'p2',
-    title: 'Yellow Scarf',
+    name: 'Yellow Scarf',
     description: 'Kabuto Maiden.',
     price: 19.99,
     imageUrl:
@@ -19,7 +19,7 @@ final dummyProducts =[
   ),
   Product(
     id: 'p3',
-    title: 'PS5',
+    name: 'PS5',
     description: 'Father of exclusivos.',
     price: 4100.99,
     imageUrl:
@@ -27,7 +27,7 @@ final dummyProducts =[
   ),
   Product(
     id: 'p4',
-    title: 'A Pan',
+    name: 'A Pan',
     description: 'A fucking maiden shirt.',
     price: 49.99,
     imageUrl:

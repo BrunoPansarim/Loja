@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/cart.dart';
 
 class CartWidgetItem extends StatelessWidget {
-  const CartWidgetItem({Key? key, required this.cartItem}) : super(key: key);
+  const CartWidgetItem(this.cartItem, {Key? key}) : super(key: key);
 
   final CartItem cartItem;
 
@@ -15,7 +15,7 @@ class CartWidgetItem extends StatelessWidget {
       key: ValueKey(cartItem.id),
       direction: DismissDirection.endToStart,
       background: Container(
-        color: Theme.of(context).errorColor,
+        color: Theme.of(context).colorScheme.error,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 15),
         margin: const EdgeInsets.symmetric(
@@ -28,7 +28,7 @@ class CartWidgetItem extends StatelessWidget {
           size: 40,
         ),
       ),
-      confirmDismiss: (_) async {
+      confirmDismiss: (_) {
         return showDialog<bool>(
           context: context,
           builder: (ctx) => AlertDialog(
