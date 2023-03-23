@@ -153,7 +153,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   },
                   onSaved: (price) =>
                       _formData['price'] = double.parse(price ?? '0'),
-                  validator: (_price) {
+                  validator: (String? _price) {
                     final priceString = _price ?? '';
                     final price = double.tryParse(priceString) ?? -1;
 
@@ -178,6 +178,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onSaved: (description) =>
                     _formData['description'] = description ?? '',
                 validator: (_description) {
+                  assert(_description != null);
                   final description = _description ?? '';
 
                   if (description.trim().isEmpty) {
@@ -213,6 +214,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       onSaved: (imageUrl) =>
                           _formData['imageUrl'] = imageUrl ?? '',
                       validator: (_imageUrl) {
+                        assert(_imageUrl != null);
                         final imageUrl = _imageUrl ?? '';
 
                         if (!isValidImageUrl(imageUrl)) {
@@ -223,35 +225,30 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       },
                     ),
                   ),
-                  Container(
-                    height: 100,
-                    width: 100,
-                    margin: const EdgeInsets.only(
-                      top: 15,
-                      left: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white54,
-                        width: 1,
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: _imageUrlController.text.isEmpty
-                        ? const Text(
-                            'Informe a Url',
-                          //   style: TextStyle(
-                          //     color: Colors.white),
-                          )
-                        : FittedBox(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        margin: const EdgeInsets.only(top: 8, right: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.grey)),
+                        child: _imageUrlController.text.isEmpty
+                            ? const Text('Enter a URL')
+                            : FittedBox(
+                          child: Image.network(
+                            _imageUrlController.text,
                             fit: BoxFit.cover,
-                            child: Image.network(_imageUrlController.text),
-                    ),
-                  ),
+                          ),
+                        ),
+                      ),
                 ],
               ),
             ],
           ),
+        ],
+      )
         ),
       ),
     );
