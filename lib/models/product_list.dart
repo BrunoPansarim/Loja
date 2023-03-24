@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:lojinha/data/dummy_data.dart';
 import 'package:lojinha/models/product.dart';
 
 class ProductList with ChangeNotifier {
+  final _baseUrl = 'https://e-commerce-camisetas-default-rtdb.firebaseio.com';
   final List<Product> _items = dummyProducts;
 
   List<Product> get items => [..._items];
@@ -35,6 +38,18 @@ class ProductList with ChangeNotifier {
   }
 
   void addProduct(Product product) {
+    post(
+      Uri.parse('$_baseUrl/xd.json'),
+      body: jsonEncode({
+        "name": product.name,
+        "description": product.description,
+        "price": product.price,
+        "imageUrl": product.imageUrl,
+        "isFavorite": product.isFavorite,
+
+      })
+    );
+
     _items.add(product);
     notifyListeners();
   }

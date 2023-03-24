@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Lato',
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreenAccent)
               .copyWith(background: Colors.black),
         ),
         home: const ProductsOverviewPage(),
