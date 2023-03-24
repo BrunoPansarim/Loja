@@ -49,11 +49,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _priceFocus.dispose();
     _descriptionFocus.dispose();
-    _imageUrlFocus.removeListener((updateImage));
+
+    _imageUrlFocus.removeListener(updateImage);
     _imageUrlFocus.dispose();
   }
 
@@ -75,6 +75,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     if (!isValid) {
       return;
     }
+
     _formKey.currentState?.save();
 
     Provider.of<ProductList>(
@@ -239,7 +240,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                             : FittedBox(
                           child: Image.network(
                             _imageUrlController.text,
-                            fit: BoxFit.cover,
+                              width: 100, height: 100,
                           ),
                         ),
                       ),

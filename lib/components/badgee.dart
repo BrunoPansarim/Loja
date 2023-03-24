@@ -29,6 +29,7 @@ class Badgee extends StatelessWidget {
               ),
               child: Text(
                 value,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 10,
                 ),

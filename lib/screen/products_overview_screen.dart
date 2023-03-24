@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojinha/components/app_drawer.dart';
 import 'package:lojinha/utils/app_routes.dart';
 import 'package:provider/provider.dart';
-import '../components/badge.dart';
+import '../components/badgee.dart';
 import '../components/product_grid.dart';
 import '../models/cart.dart';
 

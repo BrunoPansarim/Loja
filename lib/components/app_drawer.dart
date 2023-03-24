@@ -7,7 +7,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey[500],
+      backgroundColor: Colors.grey[600],
       child: Column(
         children: [
           AppBar(
@@ -37,7 +37,7 @@ class AppDrawer extends StatelessWidget {
           ),
           // const Divider(),
           ListTile(
-            leading: const Icon(Icons.payment_sharp),
+            leading: const Icon(Icons.edit_note),
             title: const Text('Gerenciar Produtos'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
