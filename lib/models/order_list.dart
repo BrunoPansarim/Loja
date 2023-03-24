@@ -20,7 +20,7 @@ class OrderList with ChangeNotifier {
         total: cart.totalAmount,
         date: DateTime.now(),
         products: cart.items.values.toList(),
-    ),
+      ),
     );
     notifyListeners();
   }

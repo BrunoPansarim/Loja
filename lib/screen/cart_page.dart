@@ -36,7 +36,7 @@ class CartPage extends StatelessWidget {
                       fontSize: 15,
                     ),
                   ),
-                  const SizedBox(width: 7),
+                  const SizedBox(width: 10),
                   Chip(
                     backgroundColor: Theme.of(context).primaryColor,
                     label: Text(
