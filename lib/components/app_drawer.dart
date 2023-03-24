@@ -7,18 +7,25 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey[600],
+      backgroundColor: Colors.black,
       child: Column(
         children: [
           AppBar(
-            title: const Text('Menu'),
+            title: const Text('Menu',
+            ),
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.grey,
-          ),
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
+    ),
           // const Divider(),
           ListTile(
-            leading: const Icon(Icons.shop),
-            title: const Text('Loja'),
+            leading: const Icon(Icons.shop,
+            color: Colors.white,
+            ),
+            title: const Text('Loja',
+            style: TextStyle(color: Colors.white,
+            ),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.home,
@@ -27,8 +34,13 @@ class AppDrawer extends StatelessWidget {
           ),
           // const Divider(),
           ListTile(
-            leading: const Icon(Icons.payment_sharp),
-            title: const Text('PC'),
+            leading: const Icon(Icons.payment_sharp,
+              color: Colors.white,
+            ),
+            title: const Text('PC',
+              style: TextStyle(color: Colors.white,
+              ),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.orders,
@@ -37,8 +49,12 @@ class AppDrawer extends StatelessWidget {
           ),
           // const Divider(),
           ListTile(
-            leading: const Icon(Icons.edit_note),
-            title: const Text('Gerenciar Produtos'),
+            leading: const Icon(Icons.edit_note,
+              color: Colors.white,),
+            title: const Text('Gerenciar Produtos',
+              style: TextStyle(color: Colors.white,
+              ),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.products_page,
