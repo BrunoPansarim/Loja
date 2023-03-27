@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojinha/components/app_drawer.dart';
+import 'package:lojinha/models/product_list.dart';
 import 'package:lojinha/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../components/badgee.dart';
@@ -20,6 +21,12 @@ class ProductsOverviewPage extends StatefulWidget {
 
 class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   bool _showFavoriteOnly = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<ProductList>(context, listen: false).loadProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
