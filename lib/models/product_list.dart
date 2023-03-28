@@ -4,11 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lojinha/data/dummy_data.dart';
+import 'package:lojinha/exception/http_exception.dart';
 import 'package:lojinha/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final _Url =
-      'https://e-commerce-camisetas-default-rtdb.firebaseio.com/products.json';
+  final _baseUrl =
+      'https://e-commerce-camisetas-default-rtdb.firebaseio.com/products';
   final List<Product> _items = [];
 
   List<Product> get items => [..._items];
@@ -21,16 +22,20 @@ class ProductList with ChangeNotifier {
   }
 
   Future<void> loadProducts() async {
-    final response = await http.get(Uri.parse(_Url));
+    _items.clear();
+
+    final response = await http.get(Uri.parse('$_baseUrl.json'),
+    );
     Map<String, dynamic> data = jsonDecode(response.body);
-    data.forEach((product, ProductData) {
+    data.forEach((productId, productData) {
       _items.add(
         Product(
           id: productId,
           name: productData['name'],
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl,
+          description: productData['description'],
+          price: productData['price'],
+          imageUrl: productData['imageUrl'],
+          isFavorite: productData['isFavorite'],
         ),
       );
     });
@@ -56,7 +61,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      Uri.parse('$_Url/products.json'),
+      Uri.parse('$_baseUrl.json'),
       body: jsonEncode(
         {
           "name": product.name,
@@ -86,18 +91,44 @@ class ProductList with ChangeNotifier {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
+      await http.patch(
+        Uri.parse('$_baseUrl/${product.id}.json'),
+        body: jsonEncode(
+          {
+            "name": product.name,
+            "description": product.description,
+            "price": product.price,
+            "imageUrl": product.imageUrl,
+            "isFavorite": product.isFavorite,
+          },
+        ),
+      );
+
       _items[index] = product;
       notifyListeners();
     }
-    return Future.value();
   }
 
-  void removeProduct(Product product) {
+  Future <void> removeProduct(Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-      _items.removeWhere((p) => p.id == product.id);
+      final product = _items[index];
+      _items.remove(product);
       notifyListeners();
+
+      final response = await http.delete(
+          Uri.parse('$_baseUrl/${product.id}.json'),
+      );
+
+      if (response.statusCode >= 400) {
+        _items.insert(index, product);
+        notifyListeners();
+        throw HttpException(
+          msg: 'Não deu para excluir',
+          statusCode: response.statusCode,
+        );
+      }
     }
   }
 }
