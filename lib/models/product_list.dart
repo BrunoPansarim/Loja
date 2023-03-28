@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:lojinha/data/dummy_data.dart';
 import 'package:lojinha/exception/http_exception.dart';
 import 'package:lojinha/models/product.dart';
+import 'package:lojinha/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
-  final _baseUrl =
-      'https://e-commerce-camisetas-default-rtdb.firebaseio.com/products';
+  final _baseUrl = 'https://e-commerce-camisetas-default-rtdb.firebaseio.com/products';
   final List<Product> _items = [];
 
   List<Product> get items => [..._items];
@@ -24,7 +24,7 @@ class ProductList with ChangeNotifier {
   Future<void> loadProducts() async {
     _items.clear();
 
-    final response = await http.get(Uri.parse('$_baseUrl.json'),
+    final response = await http.get(Uri.parse('${Constants.product_base_url}.json'),
     );
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
@@ -61,7 +61,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl.json'),
+      Uri.parse('${Constants.product_base_url}.json'),
       body: jsonEncode(
         {
           "name": product.name,
@@ -92,7 +92,7 @@ class ProductList with ChangeNotifier {
 
     if (index >= 0) {
       await http.patch(
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('${Constants.product_base_url}.json'),
         body: jsonEncode(
           {
             "name": product.name,
@@ -118,7 +118,7 @@ class ProductList with ChangeNotifier {
       notifyListeners();
 
       final response = await http.delete(
-          Uri.parse('$_baseUrl/${product.id}.json'),
+          Uri.parse('${Constants.product_base_url}.json'),
       );
 
       if (response.statusCode >= 400) {

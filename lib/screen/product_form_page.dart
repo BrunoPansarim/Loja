@@ -1,11 +1,8 @@
-import 'dart:js_util';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:lojinha/models/product_list.dart';
 import 'package:provider/provider.dart';
+
 import '../models/product.dart';
-import 'package:lojinha/models/product_list.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({Key? key}) : super(key: key);
