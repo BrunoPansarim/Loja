@@ -9,11 +9,9 @@ import 'package:lojinha/models/product.dart';
 import 'package:lojinha/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
-  final _baseUrl = 'https://e-commerce-camisetas-default-rtdb.firebaseio.com/products';
   final List<Product> _items = [];
 
   List<Product> get items => [..._items];
-
   List<Product> get favoriteItems =>
       items.where((prod) => prod.isFavorite).toList();
 
@@ -39,6 +37,7 @@ class ProductList with ChangeNotifier {
         ),
       );
     });
+    notifyListeners();
   }
 
   Future<void> saveProduct(Map<String, Object> data) async {
@@ -118,7 +117,7 @@ class ProductList with ChangeNotifier {
       notifyListeners();
 
       final response = await http.delete(
-          Uri.parse('${Constants.product_base_url}.json'),
+          Uri.parse('${Constants.product_base_url}/${product.id}.json'),
       );
 
       if (response.statusCode >= 400) {
