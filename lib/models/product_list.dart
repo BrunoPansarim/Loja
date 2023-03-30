@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lojinha/data/dummy_data.dart';
 import 'package:lojinha/exception/http_exception.dart';
 import 'package:lojinha/models/product.dart';
 import 'package:lojinha/utils/constants.dart';
@@ -24,6 +23,7 @@ class ProductList with ChangeNotifier {
 
     final response = await http.get(Uri.parse('${Constants.product_base_url}.json'),
     );
+    if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
       _items.add(
@@ -40,7 +40,7 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveProduct(Map<String, Object> data) async {
+  Future<void> saveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -98,7 +98,6 @@ class ProductList with ChangeNotifier {
             "description": product.description,
             "price": product.price,
             "imageUrl": product.imageUrl,
-            "isFavorite": product.isFavorite,
           },
         ),
       );
@@ -131,21 +130,3 @@ class ProductList with ChangeNotifier {
     }
   }
 }
-
-// bool _showFavoriteOnly = false;
-//
-//   if(_showFavoriteOnly) {
-//     return _items.where((prod) => prod.isFavorite).toList();
-//   }
-//   return [..._items];
-// }
-//
-// void showFavoriteOnly() {
-//   _showFavoriteOnly = true;
-//   notifyListeners();
-// }
-//
-// void _showAll() {
-//   _showFavoriteOnly = false;
-//   notifyListeners();
-// }

@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
-import 'package:lojinha/models/product.dart';
+import 'package:lojinha/models/car_item.dart';
+
 import '../utils/constants.dart';
 import 'cart.dart';
 import 'order.dart';
@@ -21,26 +22,32 @@ class OrderList with ChangeNotifier {
   Future<void> loadOrders() async {
     _items.clear();
 
-    final response = await http.get(Uri.parse('${Constants.order_base_url}.json'),
+    final response = await http.get(
+      Uri.parse('${Constants.order_base_url}.json'),
     );
+
+    if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((orderId, orderData) {
       _items.add(
-        Product(
-          id: productId,
-          name: productData['name'],
-          description: productData['description'],
-          price: productData['price'],
-          imageUrl: productData['imageUrl'],
-          isFavorite: productData['isFavorite'],
+        Order(
+          id: orderId,
+          date: DateTime.parse(orderData['date']),
+          total: orderData['total'],
+          products: (orderData['product'] as List<dynamic>).map((item) {
+            return CartItem(
+              id: item['id'],
+              productId: item['productId'],
+              title: item['title'],
+              quantity: item['quantity'],
+              price: item['price'],
+            );
+          }).toList(),
         ),
       );
     });
     notifyListeners();
   }
-
-
-
 
   Future<void> addOrder(Cart cart) async {
     final date = DateTime.now();
@@ -65,6 +72,7 @@ class OrderList with ChangeNotifier {
         },
       ),
     );
+
     final id = jsonDecode(response.body)['name'];
     _items.insert(
       0,

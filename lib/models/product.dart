@@ -6,11 +6,11 @@ import 'package:http/http.dart' as http;
 import '../utils/constants.dart';
 
 class Product with ChangeNotifier {
-  late final String id;
-  late final String name;
-  late final String description;
-  late final double price;
-  late final String imageUrl;
+  final String id;
+  final String name;
+  final String description;
+  final double price;
+  final String imageUrl;
   bool isFavorite;
 
   Product({
