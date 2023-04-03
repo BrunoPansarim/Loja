@@ -30,7 +30,7 @@ class ProductItem extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  AppRoutes.product_form,
+                  AppRoutes.productFORMROUTE,
                   arguments: product,
                 );
               },
@@ -80,9 +80,8 @@ class ProductItem extends StatelessWidget {
                           listen: false,
                         ).removeProduct(product);
                       } on HttpException catch (error) {
-                        msg.showSnackBar(
-                            SnackBar(
-                              content: Text(error.toString()),
+                        msg.showSnackBar(SnackBar(
+                          content: Text(error.toString()),
                         ));
                       }
                     }

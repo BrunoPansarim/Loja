@@ -26,7 +26,9 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ProductList>(context, listen: false).loadProducts().then((value) {
+    Provider.of<ProductList>(context, listen: false)
+        .loadProducts()
+        .then((value) {
       setState(() {
         _isLoading = false;
       });
@@ -48,24 +50,28 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         actions: [
           PopupMenuButton(
             color: Colors.black,
-            icon: const Icon(Icons.more_vert,
-            color: Colors.white,
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.white,
             ),
             itemBuilder: (_) => [
               const PopupMenuItem(
                 value: FilterOptions.favorite,
-                child: Text('Somente Favoritos',
-                style: TextStyle(
-                color: Colors.white,
+                child: Text(
+                  'Somente Favoritos',
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
               const PopupMenuItem(
                 value: FilterOptions.all,
-                child: Text('Todos',
+                child: Text(
+                  'Todos',
                   style: TextStyle(
                     color: Colors.white,
-                  ),),
+                  ),
+                ),
               ),
             ],
             onSelected: (FilterOptions selectedValue) {
@@ -81,7 +87,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           Consumer<Cart>(
             child: IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.product_cart);
+                Navigator.of(context).pushNamed(AppRoutes.productCartROUTE);
               },
               icon: const Icon(Icons.shopping_cart),
             ),
@@ -92,9 +98,11 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           ),
         ],
       ),
-      body: _isLoading ? const Center(
-        child: CircularProgressIndicator(),
-      ) : ProductGrid(_showFavoriteOnly),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductGrid(_showFavoriteOnly),
       drawer: const AppDrawer(),
     );
   }

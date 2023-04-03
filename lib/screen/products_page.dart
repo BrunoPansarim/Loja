@@ -11,7 +11,8 @@ class ProductsPage extends StatelessWidget {
 
   Future<void> _refreshProducts(BuildContext context) async {
     return Provider.of<ProductList>(
-        context, listen: false,
+      context,
+      listen: false,
     ).loadProducts();
   }
 
@@ -25,7 +26,7 @@ class ProductsPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).pushNamed(
-                AppRoutes.product_form,
+                AppRoutes.productFORMROUTE,
               );
             },
             icon: const Icon(Icons.add),
@@ -36,7 +37,7 @@ class ProductsPage extends StatelessWidget {
       ),
       drawer: const AppDrawer(),
       body: RefreshIndicator(
-      onRefresh: () => _refreshProducts(context),
+        onRefresh: () => _refreshProducts(context),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView.builder(

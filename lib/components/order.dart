@@ -26,7 +26,7 @@ class _OrdersWidgetState extends State<OrdersWidget> {
               DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date),
             ),
             trailing: IconButton(
-              icon: const Icon(Icons.expand_more_sharp),
+              icon: const Icon(Icons.expand_sharp),
               onPressed: () {
                 setState(() {
                   _expanded = !_expanded;
@@ -42,27 +42,34 @@ class _OrdersWidgetState extends State<OrdersWidget> {
               ),
               height: (widget.order.products.length * 24) + 10,
               child: ListView(
-                  children: widget.order.products.map(
-                (product) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        product.title,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${product.quantity}x R\$ ${product.price}',
-                        style: const TextStyle(fontSize: 16, color: Colors.white),
-                      )
-                    ],
-                  );
-                },
-              ).toList()),
+                children: widget.order.products.map(
+                      (product) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          product.title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${product.quantity}x R\$ ${product.price}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ).toList(),
+              ),
             ),
         ],
       ),
     );
   }
 }
+

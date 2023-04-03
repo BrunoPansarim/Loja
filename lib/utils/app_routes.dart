@@ -1,11 +1,9 @@
 class AppRoutes {
-  static const auth = '/';
-  static const home = '/home';
-  static const product_detail = '/product-detail';
-  static const product_cart = '/product-cart';
-  static const orders = '/orders';
-  static const products_page = '/products';
-  static const product_form = '/product_form';
-
-
+  static const authROUTE = '/';
+  static const homeROUTE = '/home';
+  static const productDetailROUTE = '/product-detail';
+  static const productCartROUTE = '/product-cart';
+  static const ordersROUTE = '/orders';
+  static const productsPAGEROUTE = '/products';
+  static const productFORMROUTE = '/product_form';
 }

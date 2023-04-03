@@ -60,7 +60,7 @@ class ProductGridItem extends StatelessWidget {
           ),
           onTap: () {
             Navigator.of(context).pushNamed(
-              AppRoutes.product_detail,
+              AppRoutes.productDetailROUTE,
               arguments: product,
             );
           },

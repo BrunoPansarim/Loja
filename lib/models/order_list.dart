@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lojinha/models/car_item.dart';
-
 import '../utils/constants.dart';
 import 'cart.dart';
 import 'order.dart';
@@ -23,9 +21,8 @@ class OrderList with ChangeNotifier {
     _items.clear();
 
     final response = await http.get(
-      Uri.parse('${Constants.order_base_url}.json'),
+      Uri.parse('${Constants.orderBaseUrl}.json'),
     );
-
     if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((orderId, orderData) {
@@ -34,11 +31,11 @@ class OrderList with ChangeNotifier {
           id: orderId,
           date: DateTime.parse(orderData['date']),
           total: orderData['total'],
-          products: (orderData['product'] as List<dynamic>).map((item) {
+          products: (orderData['products'] as List<dynamic>).map((item) {
             return CartItem(
               id: item['id'],
               productId: item['productId'],
-              title: item['title'],
+              title: item['name'],
               quantity: item['quantity'],
               price: item['price'],
             );
@@ -53,7 +50,7 @@ class OrderList with ChangeNotifier {
     final date = DateTime.now();
 
     final response = await http.post(
-      Uri.parse('${Constants.order_base_url}.json'),
+      Uri.parse('${Constants.orderBaseUrl}.json'),
       body: jsonEncode(
         {
           'total': cart.totalAmount,
@@ -61,13 +58,13 @@ class OrderList with ChangeNotifier {
           'products': cart.items.values
               .map(
                 (cartItem) => {
-                  'id': cartItem.id,
-                  'productId': cartItem.productId,
-                  'name': cartItem.title,
-                  'quantity': cartItem.quantity,
-                  'price': cartItem.price,
-                },
-              )
+              'id': cartItem.id,
+              'productId': cartItem.productId,
+              'name': cartItem.title,
+              'quantity': cartItem.quantity,
+              'price': cartItem.price,
+            },
+          )
               .toList(),
         },
       ),
@@ -83,6 +80,7 @@ class OrderList with ChangeNotifier {
         products: cart.items.values.toList(),
       ),
     );
+
     notifyListeners();
   }
 }
