@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:lojinha/models/cart.dart';
 import 'package:lojinha/models/order_list.dart';
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Lato',
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreenAccent)
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
               .copyWith(background: Colors.black),
         ),
         // home: const ProductsOverviewPage(),
