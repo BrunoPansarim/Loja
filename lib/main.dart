@@ -1,6 +1,5 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:lojinha/models/auth.dart';
 import 'package:lojinha/models/cart.dart';
 import 'package:lojinha/models/order_list.dart';
 import 'package:lojinha/models/product_list.dart';
@@ -33,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => OrderList(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Auth(),
         ),
 
       ],

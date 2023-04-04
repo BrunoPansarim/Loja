@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/auth.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -21,9 +24,9 @@ class _AuthFormState extends State<AuthForm> {
     'password': '',
   };
 
-  void _switchAuthMode () {
+  void _switchAuthMode() {
     setState(() {
-      if(_isLogin()) {
+      if (_isLogin()) {
         _authMode = AuthMode.Signup;
       } else {
         _authMode = AuthMode.Login;
@@ -35,29 +38,33 @@ class _AuthFormState extends State<AuthForm> {
 
   bool _isSignup() => _authMode == AuthMode.Signup;
 
-  void _subimit() {
+  Future<void> _subimit() async {
     final isValid = _formKey.currentState?.validate() ?? false;
 
-    if(!isValid) {
-      return ;
+    if (!isValid) {
+      return;
     }
     setState(() => _isLoading = true);
 
     _formKey.currentState?.save();
+    Auth auth = Provider.of(context, listen: false);
 
-    if(_isLogin()) {
+    if (_isLogin()) {
 
     } else {
-      // login
+    await auth.signup(_authData['email']!,
+    _authData['password']!,
+    );
     }
-      // Registrar
 
     setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery
+        .of(context)
+        .size;
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(
@@ -80,7 +87,9 @@ class _AuthFormState extends State<AuthForm> {
                 onSaved: (email) => _authData['email'] = email ?? '',
                 validator: (_email) {
                   final email = _email ?? '';
-                  if (email.trim().isEmpty ||
+                  if (email
+                      .trim()
+                      .isEmpty ||
                       !email.contains('@') ||
                       email.endsWith('.com' '.br') ||
                       email.length < 10) {
@@ -112,22 +121,22 @@ class _AuthFormState extends State<AuthForm> {
                     validator: _isLogin()
                         ? null
                         : (_password) {
-                            final password = _password ?? '';
-                            if (password != _passwordController.text) {
-                              return 'As senhas devem ser iguais ';
-                            }
-                            return null;
-                          }),
+                      final password = _password ?? '';
+                      if (password != _passwordController.text) {
+                        return 'As senhas devem ser iguais ';
+                      }
+                      return null;
+                    }),
               const SizedBox(height: 20),
               if(_isLoading)
                 const CircularProgressIndicator()
               else
-              TextButton(
-                onPressed: _subimit,
-                child: Text(
-                  _authMode == AuthMode.Login ? 'Enter' : 'Registrar',
+                TextButton(
+                  onPressed: _subimit,
+                  child: Text(
+                    _authMode == AuthMode.Login ? 'Enter' : 'Registrar',
+                  ),
                 ),
-              ),
               const Spacer(),
               TextButton(
                   onPressed: _switchAuthMode,
