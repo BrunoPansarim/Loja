@@ -17,7 +17,6 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
-
   AuthMode _authMode = AuthMode.Signup;
   Map<String, String> _authData = {
     'email': '',
@@ -50,11 +49,11 @@ class _AuthFormState extends State<AuthForm> {
     Auth auth = Provider.of(context, listen: false);
 
     if (_isLogin()) {
-
     } else {
-    await auth.signup(_authData['email']!,
-    _authData['password']!,
-    );
+      await auth.signup(
+        _authData['email']!,
+        _authData['password']!,
+      );
     }
 
     setState(() => _isLoading = false);
@@ -62,9 +61,7 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery
-        .of(context)
-        .size;
+    final deviceSize = MediaQuery.of(context).size;
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(
@@ -73,7 +70,7 @@ class _AuthFormState extends State<AuthForm> {
       child: Container(
         color: Colors.black12,
         padding: const EdgeInsets.all(8.0),
-        height: _isLogin() ? 220 : 290,
+        height: _isLogin() ? 220 : 320,
         width: deviceSize.width * 0.85,
         child: Form(
           key: _formKey,
@@ -87,11 +84,9 @@ class _AuthFormState extends State<AuthForm> {
                 onSaved: (email) => _authData['email'] = email ?? '',
                 validator: (_email) {
                   final email = _email ?? '';
-                  if (email
-                      .trim()
-                      .isEmpty ||
+                  if (email.trim().isEmpty ||
                       !email.contains('@') ||
-                      email.endsWith('.com' '.br') ||
+                      email.endsWith('.com') ||
                       email.length < 10) {
                     return 'Isso não é um e-mail, cara!';
                   }
@@ -121,14 +116,14 @@ class _AuthFormState extends State<AuthForm> {
                     validator: _isLogin()
                         ? null
                         : (_password) {
-                      final password = _password ?? '';
-                      if (password != _passwordController.text) {
-                        return 'As senhas devem ser iguais ';
-                      }
-                      return null;
-                    }),
+                            final password = _password ?? '';
+                            if (password != _passwordController.text) {
+                              return 'As senhas devem ser iguais ';
+                            }
+                            return null;
+                          }),
               const SizedBox(height: 20),
-              if(_isLoading)
+              if (_isLoading)
                 const CircularProgressIndicator()
               else
                 TextButton(
