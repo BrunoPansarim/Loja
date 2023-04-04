@@ -14,8 +14,8 @@ class AuthPage extends StatelessWidget {
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
               colors: [
-                Color.fromRGBO(200, 100, 250, 0.7),
-                Color.fromRGBO(235, 150, 150, 0.10),
+                Color.fromRGBO(200, 100, 250, 0.8),
+                Color.fromRGBO(125, 150, 150, 0.10),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
