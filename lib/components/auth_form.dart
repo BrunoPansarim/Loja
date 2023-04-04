@@ -50,7 +50,7 @@ class _AuthFormState extends State<AuthForm> {
     } else {
       // login
     }
-      // Registrar 
+      // Registrar
 
     setState(() => _isLoading = false);
   }

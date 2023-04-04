@@ -11,6 +11,7 @@ class AuthPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
+
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
               colors: [
@@ -27,30 +28,37 @@ class AuthPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
-                  // decoration: BoxDecoration(
-                  //   borderRadius: BorderRadius.circular(5),
-                  //   border: Border.all(
-                  //     color: Colors.lightGreen,
-                  //   ),
-                  //   boxShadow: const [
-                  //     BoxShadow(
-                  //       blurRadius: 8,
-                  //       color: Colors.lightGreen,
-                  //       offset: Offset(1, 4),
-                  //     )
-                  //   ],
-                  // ),
-                  // child: const Text(
-                  //   'Acessar com um usuário',
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //     fontFamily: 'Anton',
-                  //     fontSize: 25,
-                  //   ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      bottom: 20,
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.deepPurple,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 2,
+                          color: Colors.deepPurple,
+                          offset: Offset(0, 2),
+                        )
+                      ],
+                    ),
+                    child: const Text(
+                      'Infinite Dreams',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Anton',
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
+                ),
                 const AuthForm(),
               ],
             ),
