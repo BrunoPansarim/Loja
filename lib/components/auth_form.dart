@@ -18,7 +18,6 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
-
   AuthMode _authMode = AuthMode.Signup;
   Map<String, String> _authData = {
     'email': '',
@@ -36,24 +35,24 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   void _showErrorDialog(String msg) {
-    showDialog(context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Ocorreu um Erro'),
-          content: Text(msg),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Ocorreu um Erro'),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text('Fechar'),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 
   final String emails = "bruno@gostosaodemiami.com";
   final emailValidator = RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-
 
   bool _isLogin() => _authMode == AuthMode.Login;
 
@@ -70,22 +69,22 @@ class _AuthFormState extends State<AuthForm> {
     _formKey.currentState?.save();
     Auth auth = Provider.of(context, listen: false);
 
-
     try {
-
-    if (_isLogin()) {
-      await auth.login(
-        _authData['email']!,
-        _authData['password']!,
-      );
-    } else {
-      await auth.signup(
-        _authData['email']!,
-        _authData['password']!,
-      );
-    }
-    } on AuthException catch(error) {
+      if (_isLogin()) {
+        await auth.login(
+          _authData['email']!,
+          _authData['password']!,
+        );
+      } else {
+        await auth.signup(
+          _authData['email']!,
+          _authData['password']!,
+        );
+      }
+    } on AuthException catch (error) {
       _showErrorDialog(error.toString());
+    } catch (error) {
+      _showErrorDialog('Ocorreu mais um erro'!);
     }
 
     setState(() => _isLoading = false);
