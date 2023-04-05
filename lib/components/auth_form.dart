@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojinha/exception/auth_exception.dart';
 import 'package:provider/provider.dart';
 
 import '../models/auth.dart';
@@ -17,6 +18,7 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
+
   AuthMode _authMode = AuthMode.Signup;
   Map<String, String> _authData = {
     'email': '',
@@ -33,6 +35,26 @@ class _AuthFormState extends State<AuthForm> {
     });
   }
 
+  void _showErrorDialog(String msg) {
+    showDialog(context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Ocorreu um Erro'),
+          content: Text(msg),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Fechar'),
+            ),
+          ],
+        ),
+    );
+  }
+
+  final String emails = "bruno@gostosaodemiami.com";
+  final emailValidator = RegExp(
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+
+
   bool _isLogin() => _authMode == AuthMode.Login;
 
   bool _isSignup() => _authMode == AuthMode.Signup;
@@ -48,12 +70,22 @@ class _AuthFormState extends State<AuthForm> {
     _formKey.currentState?.save();
     Auth auth = Provider.of(context, listen: false);
 
+
+    try {
+
     if (_isLogin()) {
+      await auth.login(
+        _authData['email']!,
+        _authData['password']!,
+      );
     } else {
       await auth.signup(
         _authData['email']!,
         _authData['password']!,
       );
+    }
+    } on AuthException catch(error) {
+      _showErrorDialog(error.toString());
     }
 
     setState(() => _isLoading = false);
@@ -70,7 +102,7 @@ class _AuthFormState extends State<AuthForm> {
       child: Container(
         color: Colors.black12,
         padding: const EdgeInsets.all(8.0),
-        height: _isLogin() ? 220 : 320,
+        height: _isLogin() ? 235 : 320,
         width: deviceSize.width * 0.85,
         child: Form(
           key: _formKey,
@@ -83,11 +115,9 @@ class _AuthFormState extends State<AuthForm> {
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (email) => _authData['email'] = email ?? '',
                 validator: (_email) {
-                  final email = _email ?? '';
-                  if (email.trim().isEmpty ||
-                      !email.contains('@') ||
-                      email.endsWith('.com') ||
-                      email.length < 10) {
+                  final emailValidator = RegExp(
+                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                  if (!emailValidator.hasMatch(_email ?? '')) {
                     return 'Isso não é um e-mail, cara!';
                   }
                   return null;
