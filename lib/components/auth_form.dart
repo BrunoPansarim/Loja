@@ -85,7 +85,7 @@ class _AuthFormState extends State<AuthForm> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      _showErrorDialog('Ocorreu mais um erro'!);
+      _showErrorDialog('Ocorreu mais um erro!');
     }
 
     setState(() => _isLoading = false);
@@ -102,7 +102,7 @@ class _AuthFormState extends State<AuthForm> {
       child: Container(
         color: Colors.black12,
         padding: const EdgeInsets.all(8.0),
-        height: _isLogin() ? 250 : 320,
+        height: _isLogin() ? 280 : 350,
         width: deviceSize.width * 0.85,
         child: Form(
           key: _formKey,

@@ -110,7 +110,7 @@ class _ProductFormState extends State<ProductForm> {
                   color: Colors.white,
                 ),
                 decoration: const InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'Nome',
                   labelStyle: TextStyle(color: Colors.white54),
                 ),
                 textInputAction: TextInputAction.next,
@@ -218,7 +218,7 @@ class _ProductFormState extends State<ProductForm> {
                           return 'Informe uma Url válida!';
                         }
 
-                        return 'fail';
+                        return null;
                       },
                     ),
                   ),
@@ -241,12 +241,9 @@ class _ProductFormState extends State<ProductForm> {
                             'Informe a Url',
                             style: TextStyle(
                               color: Colors.white,
-                            ),
-                          )
-                        : FittedBox(
-                            fit: BoxFit.cover,
-                            child: Image.network(_imageUrlController.text),
-                          ),
+                            )
+                    )
+                            : Image.network(_imageUrlController.text),
                   ),
                 ],
               ),
