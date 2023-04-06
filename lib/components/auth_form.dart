@@ -24,6 +24,9 @@ class _AuthFormState extends State<AuthForm> {
     'password': '',
   };
 
+  bool _isLogin() => _authMode == AuthMode.Login;
+  bool _isSignup() => _authMode == AuthMode.Signup;
+
   void _switchAuthMode() {
     setState(() {
       if (_isLogin()) {
@@ -37,8 +40,9 @@ class _AuthFormState extends State<AuthForm> {
   void _showErrorDialog(String msg) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Ocorreu um Erro'),
+      builder: (ctx) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: const Text('Ocorreu um Erro'),
         content: Text(msg),
         actions: [
           TextButton(
@@ -54,9 +58,6 @@ class _AuthFormState extends State<AuthForm> {
   final emailValidator = RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 
-  bool _isLogin() => _authMode == AuthMode.Login;
-
-  bool _isSignup() => _authMode == AuthMode.Signup;
 
   Future<void> _subimit() async {
     final isValid = _formKey.currentState?.validate() ?? false;
@@ -101,7 +102,7 @@ class _AuthFormState extends State<AuthForm> {
       child: Container(
         color: Colors.black12,
         padding: const EdgeInsets.all(8.0),
-        height: _isLogin() ? 235 : 320,
+        height: _isLogin() ? 250 : 320,
         width: deviceSize.width * 0.85,
         child: Form(
           key: _formKey,
@@ -131,7 +132,9 @@ class _AuthFormState extends State<AuthForm> {
                 onSaved: (password) => _authData['password'] = password ?? '',
                 validator: (_password) {
                   final password = _password ?? '';
-                  if (password.isEmpty || password.length < 5) {}
+                  if (password.isEmpty || password.length < 5) {
+                    return 'Senha invalida';
+                  }
                   return null;
                 },
               ),

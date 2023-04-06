@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class AuthException implements Exception {
   static const Map<String, String> errors = {
     'EMAIL_EXISTS': 'E-mail já existe, parsa!',
@@ -7,6 +10,7 @@ class AuthException implements Exception {
     'INVALID_PASSWORD': 'digita certo aí, meu nobre',
     'USER_DISABLED': 'foi bloqueado kkkk',
   };
+
 
   final String key;
 

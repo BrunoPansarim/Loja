@@ -64,7 +64,7 @@ class AuthPage extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
     );
   }
 }
