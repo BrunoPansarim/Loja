@@ -25,12 +25,12 @@ class OrderList with ChangeNotifier {
     List<Order> items = [];
 
     final response = await http.get(
-      Uri.parse('${Constants.orderBaseUrl}..json?auth=$_token'),
+      Uri.parse('${Constants.orderBaseUrl}.json?auth=$_token'),
     );
     if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((orderId, orderData) {
-      _items.add(
+      items.add(
         Order(
           id: orderId,
           date: DateTime.parse(orderData['date']),
@@ -55,7 +55,7 @@ class OrderList with ChangeNotifier {
     final date = DateTime.now();
 
     final response = await http.post(
-      Uri.parse('${Constants.orderBaseUrl}..json?auth=$_token'),
+      Uri.parse('${Constants.orderBaseUrl}.json?auth=$_token'),
       body: jsonEncode(
         {
           'total': cart.totalAmount,
@@ -69,8 +69,7 @@ class OrderList with ChangeNotifier {
               'quantity': cartItem.quantity,
               'price': cartItem.price,
             },
-          )
-              .toList(),
+          ).toList(),
         },
       ),
     );
@@ -85,7 +84,6 @@ class OrderList with ChangeNotifier {
         products: cart.items.values.toList(),
       ),
     );
-
     notifyListeners();
   }
 }

@@ -17,7 +17,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +27,22 @@ class MyApp extends StatelessWidget {
           create: (_) => Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, ProductList>(
-            create: (_) => ProductList('', []),
-            update: (ctx, auth, previous) {
-              return ProductList(
-                auth.token ?? '',
-                previous?.items ?? [],
-              );
-            }),
+          create: (_) => ProductList('', []),
+          update: (ctx, auth, previous) {
+            return ProductList(
+              auth.token ?? '',
+              previous?.items ?? [],
+            );
+          },
+        ),
         ChangeNotifierProxyProvider<Auth, OrderList>(
-          create: (_) => OrderList('',[]),
+          create: (_) => OrderList('', []),
           update: (ctx, auth, previous) {
             return OrderList(
-                auth.token ?? '',
-                previous?.items ?? [],
+              auth.token ?? '',
+              previous?.items ?? [],
             );
-          }
+          },
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
