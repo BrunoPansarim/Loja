@@ -37,7 +37,7 @@ class _AuthFormState extends State<AuthForm>
     _controller = AnimationController(
         vsync: this,
         duration: const Duration(
-          milliseconds: 300,
+          milliseconds: 800,
         ));
 
     _heighAimation = Tween(
@@ -46,9 +46,11 @@ class _AuthFormState extends State<AuthForm>
     ).animate(
       CurvedAnimation(
         parent: _controller!,
-        curve: Curves.bounceIn,
+        curve: Curves.easeInOutQuint,
       ),
     );
+
+    _heighAimation.addListener(() => setState(() {}));
   }
 
   @override
@@ -61,8 +63,10 @@ class _AuthFormState extends State<AuthForm>
     setState(() {
       if (_isLogin()) {
         _authMode = AuthMode.Signup;
+        _controller?.forward();
       } else {
         _authMode = AuthMode.Login;
+        _controller?.reverse();
       }
     });
   }
