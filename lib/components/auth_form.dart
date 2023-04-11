@@ -13,19 +13,49 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> {
+class _AuthFormState extends State<AuthForm>
+    with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
-
   AuthMode _authMode = AuthMode.Signup;
   Map<String, String> _authData = {
     'email': '',
     'password': '',
   };
 
+  late AnimationController _controller;
+  late Animation<Size> _heighAimation;
+
   bool _isLogin() => _authMode == AuthMode.Login;
+
   bool _isSignup() => _authMode == AuthMode.Signup;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(
+          milliseconds: 300,
+        ));
+
+    _heighAimation = Tween(
+      begin: const Size(double.infinity, 310),
+      end: const Size(double.infinity, 400),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.bounceIn,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
 
   void _switchAuthMode() {
     setState(() {
@@ -57,7 +87,6 @@ class _AuthFormState extends State<AuthForm> {
   final String emails = "bruno@gostosaodemiami.com";
   final emailValidator = RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-
 
   Future<void> _subimit() async {
     final isValid = _formKey.currentState?.validate() ?? false;
@@ -102,7 +131,8 @@ class _AuthFormState extends State<AuthForm> {
       child: Container(
         color: Colors.black12,
         padding: const EdgeInsets.all(8.0),
-        height: _isLogin() ? 280 : 350,
+        // height: _isLogin() ? 280 : 350,
+        height: _heighAimation?.value.height ?? (_isLogin() ? 280 : 350),
         width: deviceSize.width * 0.85,
         child: Form(
           key: _formKey,

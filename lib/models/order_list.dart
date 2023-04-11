@@ -60,7 +60,7 @@ class OrderList with ChangeNotifier {
     final date = DateTime.now();
 
     final response = await http.post(
-      Uri.parse('${Constants.orderBaseUrl}$_userId.json?auth=$_token'),
+      Uri.parse('${Constants.orderBaseUrl}/$_userId.json?auth=$_token'),
       body: jsonEncode(
         {
           'total': cart.totalAmount,
