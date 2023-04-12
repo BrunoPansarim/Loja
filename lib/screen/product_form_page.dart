@@ -86,6 +86,7 @@ class _ProductFormState extends State<ProductForm> {
         listen: false,
       ).saveProduct(_formData);
 
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     } catch (error) {
       await showDialog<void>(

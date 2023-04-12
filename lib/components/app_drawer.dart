@@ -35,7 +35,7 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
-                AppRoutes.auth_or_homeROUTE,
+                AppRoutes.authOrHomeROUTE,
               );
             },
           ),
@@ -86,10 +86,12 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Provider.of<Auth>(context, listen: false,
+              Provider.of<Auth>(
+                context,
+                listen: false,
               ).logout();
               Navigator.of(context).pushReplacementNamed(
-                AppRoutes.auth_or_homeROUTE,
+                AppRoutes.authOrHomeROUTE,
               );
             },
           ),

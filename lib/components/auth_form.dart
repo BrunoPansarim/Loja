@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/auth.dart';
 
-enum AuthMode { Signup, Login }
+enum AuthMode { signup, login }
 
 class AuthForm extends StatefulWidget {
   const AuthForm({Key? key}) : super(key: key);
@@ -18,18 +18,19 @@ class _AuthFormState extends State<AuthForm>
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
-  AuthMode _authMode = AuthMode.Signup;
-  Map<String, String> _authData = {
+  AuthMode _authMode = AuthMode.login;
+  final Map<String, String> _authData = {
     'email': '',
     'password': '',
   };
 
-  late AnimationController _controller;
-  late Animation<Size> _heighAimation;
+  AnimationController? _controller;
+  Animation<double>? _opacityAnimation;
+  Animation<Offset>? _slideAnimation;
 
-  bool _isLogin() => _authMode == AuthMode.Login;
+  bool _isLogin() => _authMode == AuthMode.login;
 
-  bool _isSignup() => _authMode == AuthMode.Signup;
+  bool _isSignup() => _authMode == AuthMode.signup;
 
   @override
   void initState() {
@@ -40,9 +41,9 @@ class _AuthFormState extends State<AuthForm>
           milliseconds: 800,
         ));
 
-    _heighAimation = Tween(
-      begin: const Size(double.infinity, 310),
-      end: const Size(double.infinity, 400),
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 2.0,
     ).animate(
       CurvedAnimation(
         parent: _controller!,
@@ -50,7 +51,17 @@ class _AuthFormState extends State<AuthForm>
       ),
     );
 
-    _heighAimation.addListener(() => setState(() {}));
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, -1.5),
+      end: const Offset(0, 0),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.linear,
+      ),
+    );
+
+    // _opacityAnimation.addListener(() => setState(() {}));
   }
 
   @override
@@ -62,10 +73,10 @@ class _AuthFormState extends State<AuthForm>
   void _switchAuthMode() {
     setState(() {
       if (_isLogin()) {
-        _authMode = AuthMode.Signup;
+        _authMode = AuthMode.signup;
         _controller?.forward();
       } else {
-        _authMode = AuthMode.Login;
+        _authMode = AuthMode.login;
         _controller?.reverse();
       }
     });
@@ -132,11 +143,13 @@ class _AuthFormState extends State<AuthForm>
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeIn,
         color: Colors.black12,
         padding: const EdgeInsets.all(8.0),
-        // height: _isLogin() ? 280 : 350,
-        height: _heighAimation?.value.height ?? (_isLogin() ? 280 : 350),
+        height: _isLogin() ? 310 : 350,
+        // height: _opacityAnimation?.value.height ?? (_isLogin() ? 280 : 350),
         width: deviceSize.width * 0.85,
         child: Form(
           key: _formKey,
@@ -162,6 +175,7 @@ class _AuthFormState extends State<AuthForm>
                   labelText: 'Senha',
                 ),
                 keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
                 controller: _passwordController,
                 onSaved: (password) => _authData['password'] = password ?? '',
                 validator: (_password) {
@@ -172,22 +186,36 @@ class _AuthFormState extends State<AuthForm>
                   return null;
                 },
               ),
-              if (_isSignup())
-                TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Confirmar senha',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: true,
-                    validator: _isLogin()
-                        ? null
-                        : (_password) {
-                            final password = _password ?? '';
-                            if (password != _passwordController.text) {
-                              return 'As senhas devem ser iguais ';
-                            }
-                            return null;
-                          }),
+              AnimatedContainer(
+                constraints: BoxConstraints(
+                  minHeight: _isLogin() ? 0 : 60,
+                  maxHeight: _isLogin() ? 0 : 120,
+                ),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.linear,
+                child: FadeTransition(
+                  opacity: _opacityAnimation!,
+                  child: SlideTransition(
+                    position: _slideAnimation!,
+                    textDirection: TextDirection.ltr,
+                    child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Confirmar senha',
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: true,
+                        validator: _isLogin()
+                            ? null
+                            : (_password) {
+                                final password = _password ?? '';
+                                if (password != _passwordController.text) {
+                                  return 'As senhas devem ser iguais ';
+                                }
+                                return null;
+                              }),
+                  ),
+                ),
+              ),
               const SizedBox(height: 20),
               if (_isLoading)
                 const CircularProgressIndicator()
@@ -195,7 +223,7 @@ class _AuthFormState extends State<AuthForm>
                 TextButton(
                   onPressed: _subimit,
                   child: Text(
-                    _authMode == AuthMode.Login ? 'Enter' : 'Registrar',
+                    _authMode == AuthMode.login ? 'Enter' : 'Registrar',
                   ),
                 ),
               const Spacer(),

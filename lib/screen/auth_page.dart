@@ -21,45 +21,49 @@ class AuthPage extends StatelessWidget {
               end: Alignment.bottomRight,
             )),
           ),
-          SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
-                    margin: const EdgeInsets.only(
-                      bottom: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.deepPurple,
+          Center(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 60),
+                        margin: const EdgeInsets.only(
+                          bottom: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.deepPurple,
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              blurRadius: 2,
+                              color: Colors.deepPurple,
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                        ),
+                        child: const Text(
+                          'Infinite Dreams',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Anton',
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 2,
-                          color: Colors.deepPurple,
-                          offset: Offset(0, 2),
-                        )
-                      ],
                     ),
-                    child: const Text(
-                      'Infinite Dreams',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Anton',
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
+                    const AuthForm(),
+                  ],
                 ),
-                const AuthForm(),
-              ],
+              ),
             ),
           ),
         ],
