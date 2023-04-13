@@ -187,7 +187,6 @@ class _ProductFormState extends State<ProductForm> {
                           if (price <= 0) {
                             return 'Informe um preço válido.';
                           }
-
                           return null;
                         }),
                     TextFormField(
@@ -214,7 +213,6 @@ class _ProductFormState extends State<ProductForm> {
                         if (description.trim().length < 10) {
                           return 'Descrição precisa no mínimo de 10 letras.';
                         }
-
                         return null;
                       },
                     ),

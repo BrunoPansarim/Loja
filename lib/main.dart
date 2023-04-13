@@ -10,6 +10,7 @@ import 'package:lojinha/screen/product_detail_page.dart';
 import 'package:lojinha/screen/product_form_page.dart';
 import 'package:lojinha/screen/products_page.dart';
 import 'package:lojinha/utils/app_routes.dart';
+import 'package:lojinha/utils/custom_route.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -54,6 +55,10 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'Lato',
+          pageTransitionsTheme: PageTransitionsTheme(builders: {
+            TargetPlatform.iOS: CustomPageTransitionBuilder(),
+            TargetPlatform.android: CustomPageTransitionBuilder(),
+          }),
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)
               .copyWith(background: Colors.black),

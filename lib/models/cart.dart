@@ -27,7 +27,7 @@ class Cart with ChangeNotifier {
     if (_items.containsKey(product.id)) {
       _items.update(
         product.id,
-            (existingItem) => CartItem(
+        (existingItem) => CartItem(
           id: existingItem.id,
           productId: existingItem.productId,
           title: existingItem.title,
@@ -38,7 +38,7 @@ class Cart with ChangeNotifier {
     } else {
       _items.putIfAbsent(
         product.id,
-            () => CartItem(
+        () => CartItem(
           id: Random().nextDouble().toString(),
           productId: product.id,
           title: product.name,
@@ -65,7 +65,7 @@ class Cart with ChangeNotifier {
     } else {
       _items.update(
         productId,
-            (existingItem) => CartItem(
+        (existingItem) => CartItem(
           id: existingItem.id,
           productId: existingItem.productId,
           title: existingItem.title,
@@ -82,4 +82,3 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 }
-

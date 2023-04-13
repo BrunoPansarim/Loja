@@ -29,8 +29,7 @@ class _AuthFormState extends State<AuthForm>
   Animation<Offset>? _slideAnimation;
 
   bool _isLogin() => _authMode == AuthMode.login;
-
-  bool _isSignup() => _authMode == AuthMode.signup;
+  // bool _isSignup() => _authMode == AuthMode.signup;
 
   @override
   void initState() {

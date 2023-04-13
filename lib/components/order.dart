@@ -17,6 +17,7 @@ class _OrdersWidgetState extends State<OrdersWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // final itemsHeight = (widget.order.products.length * 24) + 10
     return Card(
       child: Column(
         children: [
@@ -43,7 +44,7 @@ class _OrdersWidgetState extends State<OrdersWidget> {
               height: (widget.order.products.length * 24) + 10,
               child: ListView(
                 children: widget.order.products.map(
-                      (product) {
+                  (product) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -72,4 +73,3 @@ class _OrdersWidgetState extends State<OrdersWidget> {
     );
   }
 }
-
