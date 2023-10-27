@@ -1,2 +1,2 @@
 # lojinha
- lojinha do bruno
+ lojinha do Bruno
